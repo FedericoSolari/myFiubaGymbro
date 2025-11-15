@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { MdLogout } from "react-icons/md";
-import { FaBars, FaUserCircle, FaHamburger, FaRunning, FaClipboardList, FaHeartbeat, FaTrophy, FaClock } from "react-icons/fa";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthProvider';
+import { FaUserCircle} from "react-icons/fa";
+import { FaRegFileAlt } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
+import { useAuth } from "../auth/AuthProvider";
+import { FaFileAlt, FaExclamationCircle, FaChartLine, FaCog } from 'react-icons/fa'; // O FaFileLines, FaRegFileAlt para Comprobantes
 import { GiMeal } from "react-icons/gi";
-
 
 interface Menu {
   label: string;
@@ -18,72 +19,84 @@ export default function SidebarLayout() {
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false); // <-- colapsable
 
   const menus: Menu[] = [
-    { label: `Home`, link: "/home", icon: FaUserCircle },
-    { label: `Mi salud`, link: "/user-health-data", icon: FaHeartbeat },
-    { label: "Mis objetivos", link: "/user-objectives", icon: FaTrophy },
-    { label: "Mis comidas", link: "/user-diets", icon: FaHamburger },
-    { label: "Mis ejercicios", link: "/user-routines", icon: FaRunning },
-    { label: "Mis calorías diarias", link: "/user-daily-calories-goal", icon: FaClock },
-    { label: "Cerrar Sesión", link: "/", icon: MdLogout, click: true }
+    { label: "Home", link: "/home", icon: FaUserCircle },
+    { label: "Comprobantes", link: "/comprobantes", icon: FaFileAlt }, 
+    { label: "Reclamos", link: "/reclamos", icon: FaExclamationCircle }, 
+    { label: "Mejoras IA", link: "/mejoras-ia", icon: FaChartLine },
+    { label: "Configuración", link: "/configuracion", icon: FaCog },
+    { label: "Cerrar sesión", link: "/", icon: MdLogout, click: true },
   ];
 
-  async function handleSignOut(event: React.MouseEvent<HTMLAnchorElement>) {
-    event.preventDefault();
+  async function handleSignOut(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
     auth.signOut();
-    navigate('/login')
+    navigate("/login");
   }
 
-  if (location.pathname === '/signup' || location.pathname === '/login') {
-    return null; // Don't render anything if we are on the home(registration) page or log in page
-  }
+  if (location.pathname === "/signup" || location.pathname === "/login")
+    return null;
 
   return (
-    <div className="flex bg-gray-300">
-      {/* Sidebar */}
+    <div className="flex bg-gray-100">
       <div
-        className={`bg-slate-800 text-white transition-all duration-300
-          ${collapsed ? "w-16" : "w-56"} 
-          flex flex-col my-3 ml-3 rounded-2xl relative`}
+        className={`
+          h-screen bg-white py-6 px-3 flex flex-col transition-all duration-300
+          ${collapsed ? "w-20" : "w-60"}
+        `}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4">
-          {!collapsed && <span className="text-lg font-bold">myFiubaGymBro</span>}
+        {/* Header + Toggle Button */}
+        <div className="flex items-center justify-between px-2 mb-6">
+          {!collapsed && (
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-indigo-500 text-white rounded-xl flex items-center justify-center text-lg">
+                📄
+              </div>
+              <span className="text-xl font-semibold text-gray-700">
+                FacturIA
+              </span>
+            </div>
+          )}
+
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="text-white hover:bg-slate-700 rounded p-2"
-            aria-label="Toggle Sidebar"
+            className="p-2 hover:bg-gray-100 rounded-lg"
           >
-            {/* {collapsed ? ">" : "<"} */}
-            <FaBars size={15} />
+            <FaBars />
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex flex-col gap-2 px-2">
-          {menus.map((menu, idx) => (
-            idx === menus.length - 1 ? (
-              <Link to={menu.link}
-                key={idx}
-                className="group relative flex items-center gap-4 px-2 py-2 rounded hover:bg-slate-700 cursor-pointer"
-                onClick={() => auth.signOut()}
-              >
-                {React.createElement(menu?.icon, { size: "25" })}
-                {!collapsed && <span>{menu.label}</span>}
-              </Link>
-            ) : (
+        {/* Menú */}
+        <nav className="flex flex-col gap-1">
+          {menus.map((menu, idx) => {
+            const isActive = location.pathname === menu.link;
 
-              <Link to={menu.link}
+            return (
+              <Link
                 key={idx}
-                className="group relative flex items-center gap-4 px-2 py-2 rounded hover:bg-slate-700 cursor-pointer"
-                {...(menu?.click && { onClick: handleSignOut })}
+                to={menu.link}
+                onClick={menu.click ? handleSignOut : undefined}
+                className={`
+                  flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition 
+                  ${isActive
+                    ? "bg-indigo-50 text-indigo-600"
+                    : "text-gray-600 hover:bg-gray-100"}
+                `}
               >
-                {React.createElement(menu?.icon, { size: "25" })}
-                {!collapsed && <span>{menu.label}</span>}
-              </Link>)
-          ))}
+                {React.createElement(menu.icon, {
+                  size: 22,
+                  className: isActive ? "text-indigo-600" : "text-gray-500",
+                })}
+
+                {/* Hide text when collapsed */}
+                {!collapsed && (
+                  <span className="text-sm font-medium">{menu.label}</span>
+                )}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </div>

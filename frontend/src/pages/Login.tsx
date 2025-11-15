@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,32 +15,41 @@ export default function Login() {
 
     async function loginUser() {
         try {
-            const response = await fetch('http://localhost:8000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            });
-            if (response.ok) {
+            // const response = await fetch('http://localhost:8000/api/auth/login', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         email,
+            //         password,
+            //     }),
+            // });
+            // if (response.ok) {
+            if (1) {
                 console.log("Inicio exitoso");
                 setErrorResponse('');
 
-                const userData = await response.json();
+                // const userData = await response.json();
                 auth.saveUser({
-                    id: userData.id,
-                    name: userData.name,
-                    surname: userData.surname,
-                    username: userData.username,
-                    email: userData.email,
-                    status: userData.status,
+                    id: 1,
+                    name: "fede",
+                    surname:"solari",
+                    username: "fede",
+                    email: "fede@gmail.com",
+                    status: true,
                 });
+                // auth.saveUser({
+                //     id: userData.id,
+                //     name: userData.name,
+                //     surname: userData.surname,
+                //     username: userData.username,
+                //     email: userData.email,
+                //     status: userData.status,
+                // });
             } else {
-                const json = await response.json();
-                setErrorResponse(json.message || "Credenciales incorrectas.");
+                // const json = await response.json();
+                // setErrorResponse(json.message || "Credenciales incorrectas.");
             }
         } catch (error) {
             console.error("Error al realizar la solicitud:", error);
@@ -57,92 +67,141 @@ export default function Login() {
     }
 
     return (
-        <div className="h-screen w-screen flex flex-col md:flex-row overflow-hidden">
-            <div className="w-full h-full flex flex-col justify-center items-center">
-                <h1 className='text-4xl font-extrabold w-auto text-center'>
-                    ¡Bienvenido a myFiubaGymbro!
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
+        
+        <div className="max-w-5xl w-full flex flex-col md:flex-row items-center justify-between gap-12 
+                        bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/40">
+
+            <div className="w-full md:w-1/2 text-center md:text-left">
+                <h1 className="text-5xl font-extrabold text-gray-900 leading-tight drop-shadow-sm">
+                    Bienvenido a 
+                    {/* 1. Cambiado a 'inline-flex' para que "Factur" e "IA" no se separen.
+                    2. Añadido 'items-baseline' para alinear verticalmente el texto.
+                    */}
+                    <span className="inline-flex items-baseline text-blue-600 font-extrabold text-5xl"> {/* ml-2 para un espacio */}
+                    Factur
+                    <span className="inline-block bg-blue-600 text-white px-1.5 py-0.5 ml-0.5 leading-none rounded-md">
+                        IA
+                    </span>
+                    </span>
                 </h1>
-                <p className='text-lg font-semibold w-auto text-center pb-4'>
-                    La mejor manera de cuidar y organizar tu salud
+
+                <p className="mt-4 text-lg text-gray-700 font-medium">
+                    ACA PONEMOS UN TEXTO LINDO
                 </p>
-                <p className='text-lg font-semibold w-auto text-center'>
+                <p className="text-lg text-gray-700 font-medium mt-2">
                     ¡Inicia sesión para comenzar!
                 </p>
             </div>
-            <div className="w-full h-full flex flex-col justify-center items-center bg-white">
-                <div className="flex justify-center">
-                    <img width="80" height="80" src="https://img.icons8.com/external-soft-fill-juicy-fish/60/external-gym-gym-life-soft-fill-soft-fill-juicy-fish-10.png" alt="external-gym-gym-life-soft-fill-soft-fill-juicy-fish-10" />
+
+            <div className="w-full md:w-1/2 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                <div className="flex justify-center mb-3">
+                    {/* <img
+                        width="80"
+                        height="80"
+                        className="drop-shadow"
+                        // --- CAMBIO DE LA URL DE LA IMAGEN AQUÍ ---
+                        src="https://img.icons8.com/ios-filled/80/document.png" // Icono de documento/comprobante
+                        // Puedes probar con este si quieres algo más específico de recibo:
+                        // src="https://img.icons8.com/ios-filled/80/receipt.png" 
+                        // ------------------------------------------
+                        alt="icono-comprobante" // Cambia el alt text para que sea más descriptivo
+                    /> */}
+
+                    <img
+                        width="80"
+                        height="80"
+                        className="drop-shadow"
+                        src="/docu_img.apng"
+                        alt="icono-comprobante-animado"
+                    />
+
+                    {/* <img
+                        width="80"
+                        height="80"
+                        className="drop-shadow"
+                        src="/doc_img.gif" 
+                        alt="icono-comprobante-animado"
+                    />  */}
+
                 </div>
-                <div className="text-center mt-6">
-                    <h2 className='text-3xl font-bold text-gray-900'>
-                        Inicie sesión con email
-                    </h2>
-                </div>
-                <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+
+                <h2 className="text-2xl font-bold text-gray-900 text-center">
+                    Inicie sesión con email
+                </h2>
+
+                <div className="mt-6">
                     {!!errorResponse && (
-                        <div className='flex justify-center mb-3 bg-red-100'>
-                            <p className="text-red-500 text-center">{errorResponse}</p>
+                        <div className="mb-3 bg-red-100 py-2 rounded-lg">
+                            <p className="text-red-600 text-center font-semibold">
+                                {errorResponse}
+                            </p>
                         </div>
                     )}
-                    <form className="space-y-8" onSubmit={handleSubmit}>
-                        <div className="flex flex-col">
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        {/* Email */}
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                                 Correo Electrónico
                             </label>
-                            <div className="">
-                                <input
-                                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    value={email}
-                                    autoComplete="email"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder='ej. jperez@fi.uba.ar'
-                                    required
-                                />
-                            </div>
+                            <input
+                                className="w-full pl-3 py-2 rounded-lg border border-gray-300 
+                                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                           transition-all shadow-sm"
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="ej. jperez@fi.uba.ar"
+                                required
+                            />
                         </div>
+
+                        {/* Password */}
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                            <div className="flex justify-between mb-1">
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                     Contraseña
                                 </label>
-                                <div className="text-sm">
-                                    <a href="#" className="font-semibold text-blue-600 hover:text-blue-500">
-                                        Olvidó su contraseña?
-                                    </a>
-                                </div>
+                                <a href="#" className="text-sm text-blue-600 hover:text-blue-500 font-semibold">
+                                    Olvidó su contraseña?
+                                </a>
                             </div>
-                            <div className="">
-                                <input
-                                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    autoComplete="current-password"
-                                    placeholder='********'
-                                    required
-                                />
-                            </div>
+
+                            <input
+                                className="w-full pl-3 py-2 rounded-lg border border-gray-300 
+                                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                                           transition-all shadow-sm"
+                                id="password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="********"
+                                required
+                            />
                         </div>
+
+                        {/* Botón */}
                         <button
-                            type='submit'
-                            className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            type="submit"
+                            className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 
+                                       text-white font-semibold rounded-lg shadow-md 
+                                       transition-all text-sm"
                         >
                             Iniciar Sesión
                         </button>
                     </form>
-                    <p className="mt-1 text-center text-sm text-gray-500">
-                        Aún no tienes una cuenta?{' '}
-                        <Link to="/" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
+
+                    <p className="mt-4 text-center text-sm text-gray-600">
+                        ¿Aún no tienes una cuenta?{" "}
+                        <Link to="/" className="text-blue-600 hover:text-blue-500 font-semibold">
                             Registrarse
                         </Link>
                     </p>
                 </div>
             </div>
         </div>
-    );
+    </div>
+);
 }
