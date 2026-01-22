@@ -9,8 +9,8 @@ function App() {
         <SideBar />
         <div className='lg:mt-0 flex w-full h-full justify-center fade-in'>
           <AppRouter />
-        </div>
-      </div>
+        </div> 
+      </div>       
     </>
   );
 

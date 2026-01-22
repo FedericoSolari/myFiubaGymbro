@@ -30,9 +30,8 @@ export const ComprobantesPage = () => {
   };
 
   return (
-    <div className="flex-1 bg-gray-50 overflow-x-hidden">
-      <div className="flex-1 bg-gray-50 overflow-x-hidden">
-
+    <div className="w-full min-h-screen bg-gray-50 px-8 py-6">
+      <div className="flex flex-col gap-8">
 
         {/* HEADER */}
         <div>
@@ -44,69 +43,83 @@ export const ComprobantesPage = () => {
           </p>
         </div>
 
-        {/* UPLOAD BOX */}
-        <div className="bg-white rounded-2xl shadow p-10">
-          <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 flex flex-col items-center justify-center text-center gap-4 hover:border-indigo-400 transition">
-            <FiUpload className="text-5xl text-indigo-500" />
-            <p className="text-gray-600 font-medium">
-              Arrastrá el archivo PDF aquí
-            </p>
-            <p className="text-gray-400 text-sm">
-              o seleccioná uno desde tu computadora
-            </p>
+        {/* GRID */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
 
-            <label className="mt-4 cursor-pointer">
-              <input
-                type="file"
-                accept="application/pdf"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <span className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-semibold shadow cursor-pointer">
-                Seleccionar archivo
-              </span>
-            </label>
-          </div>
-        </div>
+          {/* UPLOAD - IZQUIERDA */}
+          <div className="bg-white rounded-2xl shadow p-10 w-full">
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 flex flex-col items-center justify-center text-center gap-4 hover:border-indigo-400 transition">
+              <FiUpload className="text-5xl text-indigo-500" />
+              <p className="text-gray-600 font-medium">
+                Arrastrá el archivo PDF aquí
+              </p>
+              <p className="text-gray-400 text-sm">
+                o seleccioná uno desde tu computadora
+              </p>
 
-        {/* LISTA DE COMPROBANTES */}
-        <div className="bg-white rounded-2xl shadow p-8">
-          <h2 className="text-xl font-semibold mb-6">
-            Últimos comprobantes subidos
-          </h2>
-
-          <div className="divide-y">
-            {comprobantes.map((c, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between py-4"
-              >
-                <div className="flex items-center gap-4">
-                  <FiFileText className="text-indigo-500 text-xl" />
-                  <div>
-                    <p className="font-medium">{c.name}</p>
-                    <p className="text-sm text-gray-400">{c.date}</p>
-                  </div>
-                </div>
-
-                <span
-                  className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
-                    c.status
-                  )}`}
-                >
-                  {c.status}
+              <label className="mt-4 cursor-pointer">
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <span className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-semibold shadow cursor-pointer">
+                  Seleccionar archivo
                 </span>
-              </div>
-            ))}
+              </label>
+            </div>
           </div>
 
-          <div className="flex justify-end mt-6">
-            <button className="text-indigo-600 hover:underline font-medium">
-              Ver todos los comprobantes →
-            </button>
+          {/* HISTORIAL - DERECHA */}
+          <div className="bg-white rounded-2xl shadow p-8 w-full flex flex-col">
+            <h2 className="text-xl font-semibold mb-6">
+              Últimos comprobantes subidos
+            </h2>
+
+            <div className="divide-y flex-1">
+              {comprobantes.map((c, i) => (
+                <div key={i} className="flex items-center justify-between py-4">
+                  <div className="flex items-center gap-4">
+                    <FiFileText className="text-indigo-500 text-xl" />
+                    <div>
+                      <p className="font-medium">{c.name}</p>
+                      <p className="text-sm text-gray-400">{c.date}</p>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
+                      c.status
+                    )}`}
+                  >
+                    {c.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* BOTÓN VER MÁS */}
+            <div className="flex justify-end mt-6">
+              <button
+                className="
+                  px-5 py-2
+                  rounded-full
+                  border border-gray-200
+                  text-sm font-medium text-gray-600
+                  bg-white
+                  hover:bg-gray-50
+                  hover:border-gray-300
+                  hover:text-gray-800
+                  transition
+                "
+              >
+                Ver todos los comprobantes
+              </button>
+            </div>
           </div>
+
         </div>
-
       </div>
     </div>
   );
