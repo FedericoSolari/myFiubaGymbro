@@ -38,7 +38,7 @@ export const UserHome = ({ updateHome, onUpdateHome }: UserHomeProps) => {
             colorFrom: 'from-emerald-800',
             colorTo: 'to-emerald-500',
             image: dietas,
-            path: '/diets-recommendation',
+            path: '/my_receipts',
         }
     ];
 

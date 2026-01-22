@@ -4,6 +4,7 @@ import SignUp from "../pages/SignUp";
 import ProtectedRoute from "./ProtectedRoute";
 import { HomePage } from "../pages/Home";
 import { UploadFile } from "../pages/UploadFile";
+import { MyReceipPage } from "../pages/MyReceip";
 
 
 
@@ -21,7 +22,11 @@ export const AppRouter = () => {
       <Route path="/upload_file" element={<ProtectedRoute />}>
         <Route path="/upload_file" element={<UploadFile />} />
       </Route>
-      
+
+      <Route path="/my_receipts" element={<ProtectedRoute />}>
+        <Route path="/my_receipts" element={<MyReceipPage />} />
+      </Route>
+
       <Route path="/" element={<Navigate to="/signup" />} />
       <Route path="/*" element={<Navigate to="/signup" />} />
     </Routes >
