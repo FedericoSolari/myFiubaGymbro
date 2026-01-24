@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FiFileText,
   FiAlertCircle,
@@ -13,6 +14,7 @@ import {
   FiClock,
   FiXCircle,
   FiActivity,
+  FiHome,
 } from "react-icons/fi";
 import { FaRegFilePdf } from "react-icons/fa6"; // Icono específico de PDF
 
@@ -67,40 +69,42 @@ const StatusBadge = ({ status }: { status: ComprobanteStatus }) => {
   );
 };
 
+
 // --- COMPONENTE PRINCIPAL DE PÁGINA ---
 export const MyReceip = () => {
+  const [estadoFiltro, setEstadoFiltro] = useState<ComprobanteStatus | "Todos">("Todos");
+  const [tipoFiltro, setTipoFiltro] = useState<string>("Todos");
+  
+  const comprobantesFiltrados = comprobantesData.filter((item) => {
+    const coincideEstado =
+      estadoFiltro === "Todos" || item.estado === estadoFiltro;
+  
+    const coincideTipo =
+      tipoFiltro === "Todos" || item.tipo === tipoFiltro;
+  
+    return coincideEstado && coincideTipo;
+  });
+
+
   return (
     <div className="min-h-screen bg-[#F8F9FC] font-sans text-slate-700 flex flex-col">
       
-      {/* --- HEADER SUPERIOR --- */}
       <header className="bg-white h-16 border-b border-slate-100 px-6 lg:px-10 flex items-center justify-between sticky top-0 z-10 font-medium">
-        {/* Logo Area (Left) */}
-        <div className="flex items-center gap-3">
-            <div className="bg-indigo-600 p-2 rounded-lg text-white">
-                <FiFileText size={20} />
-            </div>
-            <span className="text-xl font-bold text-slate-800">FacturIA</span>
-        </div>
 
         {/* Navigation & Profile (Right) */}
         <div className="flex items-center gap-8 h-full">
+          <Link to="/" className="h-9 w-9 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 cursor-pointer transition">
+                <FiHome size={18} />
+          </Link>
             <nav className="hidden md:flex items-center gap-6 h-full text-sm text-slate-500">
-                <a href="#" className="hover:text-slate-800 transition-colors">Comprobantes</a>
-                {/* Active link styling */}
                 <a href="#" className="text-indigo-600 relative h-full flex items-center font-semibold
                     after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-indigo-600 after:rounded-t-full">
                     Historial
                 </a>
             </nav>
-            <div className="h-9 w-9 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 cursor-pointer transition">
-                <FiUser size={18} />
-            </div>
         </div>
       </header>
 
-
-      {/* --- CONTENEDOR PRINCIPAL (Sidebar + Contenido) --- */}
-      <div className="flex flex-1 overflow-hidden relative">
 
         {/* --- ÁREA DE CONTENIDO PRINCIPAL (Derecha) --- */}
         <main className="flex-1 md:ml-64 p-6 lg:p-10 overflow-y-auto">
@@ -114,14 +118,31 @@ export const MyReceip = () => {
                         <span>Filtros:</span>
                     </div>
                     {/* Dropdowns simulados */}
-                    <div className="bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm text-slate-700 flex items-center justify-between min-w-[180px]">
-                        Todos los estados
-                        <svg className="w-4 h-4 ml-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                    <div className="bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm text-slate-700 flex items-center justify-between min-w-[180px]">
-                        Todos los tipos
-                        <svg className="w-4 h-4 ml-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
+                    <select
+                      value={estadoFiltro}
+                      onChange={(e) => setEstadoFiltro(e.target.value as any)}
+                      className="bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm text-slate-700 min-w-[180px] outline-none"
+                    >
+                      <option value="Todos">Todos los estados</option>
+                      <option value="Procesado">Procesado</option>
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="Error">Error</option>
+                      <option value="Aprendizaje">Aprendizaje</option>
+                    </select>
+
+                    <select
+                      value={tipoFiltro}
+                      onChange={(e) => setTipoFiltro(e.target.value)}
+                      className="bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer rounded-lg px-4 py-2 text-sm text-slate-700 min-w-[180px] outline-none"
+                    >
+                      <option value="Todos">Todos los tipos</option>
+                      <option value="Factura">Factura</option>
+                      <option value="Recibo">Recibo</option>
+                      <option value="Comprobante">Comprobante</option>
+                      <option value="Ticket">Ticket</option>
+                      <option value="Nota de Crédito">Nota de Crédito</option>
+                    </select>
+
                 </div>
 
 
@@ -141,7 +162,7 @@ export const MyReceip = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {comprobantesData.map((item) => (
+                                {comprobantesFiltrados.map((item) => (
                                     <tr key={item.id} className="hover:bg-slate-50/50 transition-colors text-sm text-slate-700">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3 font-medium text-slate-800">
@@ -194,6 +215,5 @@ export const MyReceip = () => {
             </div>
         </main>
       </div>
-    </div>
   );
 };
