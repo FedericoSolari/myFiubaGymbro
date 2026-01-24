@@ -17,6 +17,8 @@ import {
   FiHome,
 } from "react-icons/fi";
 import { FaRegFilePdf } from "react-icons/fa6"; // Icono específico de PDF
+import { useNavigate } from "react-router-dom";
+
 
 // --- Tipos de datos para la tabla ---
 type ComprobanteStatus = "Procesado" | "Pendiente" | "Error" | "Aprendizaje";
@@ -74,6 +76,8 @@ const StatusBadge = ({ status }: { status: ComprobanteStatus }) => {
 export const MyReceip = () => {
   const [estadoFiltro, setEstadoFiltro] = useState<ComprobanteStatus | "Todos">("Todos");
   const [tipoFiltro, setTipoFiltro] = useState<string>("Todos");
+  const navigate = useNavigate();
+
   
   const comprobantesFiltrados = comprobantesData.filter((item) => {
     const coincideEstado =
@@ -186,17 +190,36 @@ export const MyReceip = () => {
                                             {item.fecha}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="flex items-center justify-center gap-4 text-slate-400">
-                                                <button className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition tooltip-trigger">
-                                                    <FiDownload size={18} />
-                                                </button>
-                                                <button className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition">
-                                                    <FiEye size={18} />
-                                                </button>
-                                                <button className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition">
-                                                    <FiLink size={18} />
-                                                </button>
-                                            </div>
+                                          <div className="flex items-center justify-center gap-4 text-slate-400">
+
+                                            {/* Descargar MODIFICAR LINK */}
+                                            <button
+                                              onClick={() => navigate(`/comprobantes/${item.id}/descargar`)}
+                                              className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition"
+                                              title="Descargar"
+                                            >
+                                              <FiDownload size={18} />
+                                            </button>
+
+                                            {/* Ver */}
+                                            <button
+                                              onClick={() => navigate(`/comprobantes/${item.id}/ver`)}
+                                              className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition"
+                                              title="Ver comprobante"
+                                            >
+                                              <FiEye size={18} />
+                                            </button>
+
+                                            {/* Compartir */}
+                                            <button
+                                              onClick={() => navigate(`/comprobantes/${item.id}/compartir`)}
+                                              className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition"
+                                              title="Compartir"
+                                            >
+                                              <FiLink size={18} />
+                                            </button>
+
+                                          </div>
                                         </td>
                                     </tr>
                                 ))}
