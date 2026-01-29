@@ -46,13 +46,24 @@ export const ComprobantesPage = () => {
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
 
         {/* Volver */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 mb-6"
+        <div className="sticky top-4 z-20">
+          <button
+            onClick={() => navigate(-1)}
+            className="
+              inline-flex items-center gap-2 px-4 py-2 rounded-full
+              bg-white/80 backdrop-blur border border-slate-200
+              text-slate-600 font-medium text-sm
+              shadow-sm hover:shadow-md
+              hover:text-indigo-600 hover:border-indigo-200
+              transition-all duration-200
+              group
+            "
           >
-          <FiArrowLeft />
-          Volver
-        </button>
+            <FiArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200" />
+            Volver
+          </button>
+        </div>
+
 
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

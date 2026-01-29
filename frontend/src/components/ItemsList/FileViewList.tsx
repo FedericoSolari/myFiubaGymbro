@@ -37,13 +37,23 @@ export const FileViewList = () => {
     <div className="min-h-screen bg-[#F8F9FC] p-6 lg:p-10">
 
       {/* Volver */}
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 mb-6"
-      >
-        <FiArrowLeft />
-        Volver al historial
-      </button>
+      <div className="sticky top-4 z-20">
+        <button
+          onClick={() => navigate(-1)}
+          className="
+            inline-flex items-center gap-2 px-4 py-2 rounded-full
+            bg-white/80 backdrop-blur border border-slate-200
+            text-slate-600 font-medium text-sm
+            shadow-sm hover:shadow-md
+            hover:text-indigo-600 hover:border-indigo-200
+            transition-all duration-200
+            group
+          "
+        >
+          <FiArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200" />
+          Volver
+        </button>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
 
