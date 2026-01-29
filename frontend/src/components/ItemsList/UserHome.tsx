@@ -39,7 +39,15 @@ export const UserHome = ({ updateHome, onUpdateHome }: UserHomeProps) => {
             colorTo: 'to-emerald-500',
             image: dietas,
             path: '/my_receipts',
-        }
+        },
+        {
+            title: 'Ver Comprobante',
+            description: 'Visualiza los detalles de un comprobante específico.',
+            colorFrom: 'from-blue-600',
+            colorTo: 'to-blue-400',
+            image: smartwatch,
+            path: '/file_view',
+        },
     ];
 
     return (

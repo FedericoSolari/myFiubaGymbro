@@ -5,6 +5,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { HomePage } from "../pages/Home";
 import { UploadFile } from "../pages/UploadFile";
 import { MyReceipPage } from "../pages/MyReceip";
+import { FileView} from "../pages/FileView";
 
 
 
@@ -25,6 +26,10 @@ export const AppRouter = () => {
 
       <Route path="/my_receipts" element={<ProtectedRoute />}>
         <Route path="/my_receipts" element={<MyReceipPage />} />
+      </Route>
+
+      <Route path="/file_view" element={<FileView />}>
+        <Route path="/file_view" element={<FileView />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/signup" />} />
