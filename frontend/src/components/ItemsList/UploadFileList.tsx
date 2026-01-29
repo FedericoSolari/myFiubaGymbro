@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { FiUpload, FiFileText, FiClock, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export const ComprobantesPage = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const navigate = useNavigate();
 
   const comprobantes = [
     { name: "factura_enero_2025.pdf", date: "14/1/2025", status: "Procesado", size: "1.2 MB" },
@@ -41,6 +44,15 @@ export const ComprobantesPage = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 px-4 md:px-8 py-8 font-sans">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
+
+        {/* Volver */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 mb-6"
+          >
+          <FiArrowLeft />
+          Volver
+        </button>
 
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

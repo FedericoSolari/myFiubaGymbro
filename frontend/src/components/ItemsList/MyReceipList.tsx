@@ -18,6 +18,7 @@ import {
 } from "react-icons/fi";
 import { FaRegFilePdf } from "react-icons/fa6"; // Icono específico de PDF
 import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 
 
 // --- Tipos de datos para la tabla ---
@@ -93,21 +94,15 @@ export const MyReceip = () => {
   return (
     <div className="min-h-screen bg-[#F8F9FC] font-sans text-slate-700 flex flex-col">
       
-      <header className="bg-white h-16 border-b border-slate-100 px-6 lg:px-10 flex items-center justify-between sticky top-0 z-10 font-medium">
-
-        {/* Navigation & Profile (Right) */}
-        <div className="flex items-center gap-8 h-full">
-          <Link to="/" className="h-9 w-9 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 cursor-pointer transition">
-                <FiHome size={18} />
-          </Link>
-            <nav className="hidden md:flex items-center gap-6 h-full text-sm text-slate-500">
-                <a href="#" className="text-indigo-600 relative h-full flex items-center font-semibold
-                    after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-indigo-600 after:rounded-t-full">
-                    Historial
-                </a>
-            </nav>
-        </div>
-      </header>
+      
+      {/* Volver */}
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 mb-6"
+            >
+              <FiArrowLeft />
+              Volver
+            </button>
 
 
         {/* --- ÁREA DE CONTENIDO PRINCIPAL (Derecha) --- */}
@@ -203,7 +198,8 @@ export const MyReceip = () => {
 
                                             {/* Ver */}
                                             <button
-                                              onClick={() => navigate(`/comprobantes/${item.id}/ver`)}
+                                              // onClick={() => navigate(`/comprobantes/${item.id}/ver`)}
+                                              onClick={() => navigate(`/file_view`)}
                                               className="hover:text-indigo-600 hover:bg-indigo-50 p-1.5 rounded-md transition"
                                               title="Ver comprobante"
                                             >

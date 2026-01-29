@@ -23,8 +23,8 @@ export default function SidebarLayout() {
 
   const menus: Menu[] = [
     { label: "Home", link: "/home", icon: FaUserCircle },
-    { label: "Comprobantes", link: "/comprobantes", icon: FaFileAlt }, 
-    { label: "Reclamos", link: "/reclamos", icon: FaExclamationCircle }, 
+    { label: "Comprobantes", link: "/my_receipts", icon: FaFileAlt },
+    { label: "Reclamos", link: "/reclamos", icon: FaExclamationCircle },
     { label: "Mejoras IA", link: "/mejoras-ia", icon: FaChartLine },
     { label: "Configuración", link: "/configuracion", icon: FaCog },
     { label: "Cerrar sesión", link: "/", icon: MdLogout, click: true },
